@@ -79,6 +79,11 @@ message ExchangeSender {
 	repeated FieldType types = 5;  // partition keys' types
 	repeated FieldType all_field_types = 6;
 	optional CompressionMode compression = 7 [(gogoproto.nullable) = false];
+	repeated EncodedBytesSlice upstream_cte_task_meta = 8;
+}
+
+message EncodedBytesSlice {
+	repeated bytes encoded_tasks = 1;
 }
 
 // ExchangeReceiver accept connection and receiver data from ExchangeSender.
@@ -86,6 +91,7 @@ message ExchangeReceiver {
 	repeated bytes encoded_task_meta = 1;
 	repeated FieldType field_types = 2;
 	optional ExchangeType tp = 3;
+	repeated bytes original_cte_prdocuer_task_meta = 4;
 }
 
 enum EngineType {
@@ -336,3 +342,4 @@ message Expand2{
 	repeated string generated_output_names = 2;  // for output names for generated cols like grouping_id etc, like "gen_col1", "gen_col2" here
 	optional Executor child = 3;
 }
+

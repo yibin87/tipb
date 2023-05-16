@@ -41,6 +41,7 @@ It has these top-level messages:
 	ChecksumResponse
 	Executor
 	ExchangeSender
+	EncodedBytesSlice
 	ExchangeReceiver
 	TableScan
 	PartitionTableScan
