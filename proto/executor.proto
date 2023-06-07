@@ -266,7 +266,7 @@ message ExecutorExecutionSummary {
 	}
 }
 
-message ExecutorExecutionSummaryArray {
+message TiFlashExecutionInfo {
 	// The execution summary of each executor, no order limitation.
 	repeated ExecutorExecutionSummary execution_summaries = 1;
 }
