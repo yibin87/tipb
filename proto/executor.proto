@@ -266,6 +266,11 @@ message ExecutorExecutionSummary {
 	}
 }
 
+message TiFlashExecutionInfo {
+	// The execution summary of each executor, no order limitation.
+	repeated ExecutorExecutionSummary execution_summaries = 1;
+}
+
 message TiFlashScanContext {
 	optional uint64 total_dmfile_scanned_packs = 1;
 	optional uint64 total_dmfile_skipped_packs = 2;
