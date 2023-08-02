@@ -168,6 +168,7 @@ message RuntimeFilter {
 	optional string target_executor_id = 5 [(gogoproto.nullable) = false];
 	optional RuntimeFilterType rf_type = 6 [(gogoproto.nullable) = false];
 	optional RuntimeFilterMode rf_mode = 7 [(gogoproto.nullable) = false];
+	optional bool apply_late_materialization = 8 [(gogoproto.nullable) = false];
 }
 
 enum RuntimeFilterType {
