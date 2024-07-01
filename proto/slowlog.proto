@@ -1,0 +1,106 @@
+syntax = "proto2";
+
+package tipb;
+
+option java_multiple_files = true;
+option java_package = "com.pingcap.tidb.tipb";
+
+import "gogoproto/gogo.proto";
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+// It represents CopTasksDetails
+message CopTasksDetails {
+	optional int32  num_cop_tasks = 1;
+	optional double avg_process_seconds = 2;
+	optional double p90_process_seconds = 3;
+	optional string max_process_address = 4;
+	optional double max_process_seconds = 5;
+	optional double avg_wait_seconds = 6;
+	optional double p90_wait_seconds = 7;
+	optional string max_wait_address = 8;
+	optional double max_wait_seconds = 9;
+	map<string, double> max_backoff_time = 10;
+	map<string, string> max_backoff_address = 11;
+	map<string, double> avg_backoff_time = 12;
+	map<string, double> p90_backoff_time = 13;
+	map<string, double> total_backoff_time = 14;
+	map<string, int32>  total_backoff_times = 15;
+}
+
+message TableUsedStats {
+	optional string name = 1;
+	optional int64 version = 2;
+	optional int64 realtime_count = 3;
+	optional int64 modify_count = 4;
+	map<int64, string> column_stats_load_status = 5;
+	map<int64, string> column_names = 6;
+	map<int64, string> index_stats_load_status = 7;
+	map<int64, string> index_names = 8;
+}
+
+message UsedStats {
+	map<int64, TableUsedStats> table_used_stats_map = 1;
+}
+
+message JSONSQLWarnForSlowLog {
+	optional string level = 1;
+	optional string message = 2;
+	optional bool is_extra = 3;
+}
+
+// It represents a SlowLogItem.
+message SlowLogItem {
+	optional uint64 txn_ts = 1;
+	optional string keyspace_name = 2;
+	optional uint32 keyspace_id = 3;
+	optional string user_and_host = 4;
+	optional uint64 connection_id = 5;
+	optional string session_alias = 6;
+	optional double exec_retrytime_secs = 7;
+	optional uint32 exec_retry_count = 8;
+	optional double total_time_seconds = 9;
+	optional double parse_time_seconds = 10;
+	optional double compile_time_seconds = 11;
+	optional double rewrite_preprocess_subqueries = 12;
+	optional double rewrite_preprocess_subqueries_seconds = 13;
+	optional double optimize_time_seconds = 14;
+	optional double wait_ts_time_seconds = 15;
+	repeated string exec_detail_str = 16;
+	optional string current_db = 17;
+	optional string index_names = 18;
+	optional bool in_restricted_sql = 19;
+	optional string digest = 20;
+	optional UsedStats used_stats = 21;
+	optional CopTasksDetails cop_tasks = 22;
+	optional int64 max_memory = 23;
+	optional int64 max_disk = 24;
+	optional bool prepared = 25;
+	optional bool plan_from_cache = 26;
+	optional bool plan_from_binding = 27;
+	optional bool has_more_results = 28;
+	optional double kv_total_seconds = 29;
+	optional double pd_total_seconds = 30;
+	optional double backoff_total_seconds = 31;
+	optional double write_sql_response_total_seconds = 32;
+	optional int64 result_rows = 33;
+	repeated JSONSQLWarnForSlowLog warnings = 34;
+	optional bool succ = 35;
+	optional bool is_explicit_txn = 36;
+	optional bool is_sync_stats_failed = 37;
+	optional bool is_write_cache_table = 38;
+	optional string plan = 39;
+	optional string plan_digest = 40;
+	optional string binary_plan = 41;
+	optional string resource_group_name = 42;
+	optional double rru = 43;
+	optional double wru = 44;
+	optional double wait_ru_duration_seconds = 45;
+	optional string prev_stmt = 46;
+	optional bool current_db_changed = 47;
+	optional string sql = 48;
+}
+
+
