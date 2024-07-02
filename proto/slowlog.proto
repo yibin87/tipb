@@ -32,7 +32,7 @@ message CopTasksDetails {
 
 message TableUsedStats {
 	optional string name = 1;
-	optional int64 version = 2;
+	optional uint64 version = 2;
 	optional int64 realtime_count = 3;
 	optional int64 modify_count = 4;
 	map<int64, string> column_stats_load_status = 5;
@@ -68,7 +68,7 @@ message SlowLogItem {
 	optional double rewrite_preprocess_subqueries_seconds = 13;
 	optional double optimize_time_seconds = 14;
 	optional double wait_ts_time_seconds = 15;
-	repeated string exec_detail_str = 16;
+	optional string exec_detail_str = 16;
 	optional string current_db = 17;
 	optional string index_names = 18;
 	optional bool in_restricted_sql = 19;
@@ -101,6 +101,7 @@ message SlowLogItem {
 	optional string prev_stmt = 46;
 	optional bool current_db_changed = 47;
 	optional string sql = 48;
+	optional double rewrite_seconds = 49;
 }
 
 
