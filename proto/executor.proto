@@ -316,6 +316,9 @@ message ExecutorExecutionSummary {
 	// Serialize kvproto resource_manager.Consumption to tell tidb the consumption info. For now it's only for tiflash.
 	// And it's the ru consumption of one MPPTask/cop/batchCop instead of one executor.
 	optional bytes ru_consumption = 7;
+
+	// Only for tiflash, records the wait info. 
+	optional TiFlashWaitSummary tiflash_wait_summary = 8;
 }
 
 message TiFlashExecutionInfo {
@@ -375,6 +378,11 @@ message TiFlashScanContext {
 	optional uint64 total_vector_idx_read_others_time_ms = 108;
 }
 
+message TiFlashWaitSummary {
+	optional uint64 minTSO_wait_ns = 1; // Time waited for minTSO satified
+	optional uint64 pipeline_queue_wait_ns = 2; // Time waited in task queue.
+	optional uint64 pipeline_breaker_wait_ns = 3; // Time waited for dependant pipeline finished.
+}
 
 message Sort {
 	repeated ByItem byItems = 1;
