@@ -59,6 +59,7 @@ It has these top-level messages:
 	TiFlashExecutionInfo
 	TiFlashRegionNumOfInstance
 	TiFlashScanContext
+	TiFlashPipelineWaitSummary
 	Sort
 	WindowFrameBound
 	WindowFrame
