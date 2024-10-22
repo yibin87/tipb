@@ -317,8 +317,11 @@ message ExecutorExecutionSummary {
 	// And it's the ru consumption of one MPPTask/cop/batchCop instead of one executor.
 	optional bytes ru_consumption = 7;
 
+	// Only for tiflash, records the MPPTask' waited time for minTSO satisfied. 
+	optional uint64 tiflash_minTSO_wait_ns = 8;
+
 	// Only for tiflash, and only for the tidb executor which contains pipeline source operator. 
-	optional TiFlashPipelineWaitSummary tiflash_pipeline_wait_summary = 8;
+	optional TiFlashPipelineWaitSummary tiflash_pipeline_wait_summary = 9;
 }
 
 message TiFlashExecutionInfo {
