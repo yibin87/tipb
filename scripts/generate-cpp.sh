@@ -16,6 +16,8 @@ function clean_up()
     local file=$1
     sed_inplace '/gogo.proto/d' ${file}
     sed_inplace '/option\ (gogoproto/d' ${file}
+    sed_inplace '/rustproto.proto/d' ${file} 
+    sed_inplace '/option\ (rustproto/d' ${file}
     sed_inplace -e 's/\[.*gogoproto.*\]//g' ${file}
 }
 
