@@ -164,10 +164,32 @@ message InvertedQueryInfo {
 	optional int64 column_id = 2 [(gogoproto.nullable) = false];
 }
 
+enum FTSQueryType {
+	FTSQueryTypeInvalid = 0;
+	FTSQueryTypeFilter = 1; // Not supported yet
+	FTSQueryTypeTopK = 2;
+}
+
+message FTSQueryInfo {
+	optional FTSQueryType query_type = 1 [(gogoproto.nullable) = false];
+
+	optional int64 index_id = 2 [(gogoproto.nullable) = false];
+
+	// Currently only one column is supported.
+	repeated ColumnInfo columns = 3;
+	repeated string column_names = 4; // For debug purpose only. Currently only used in explain.
+
+	optional string query_text = 5 [(gogoproto.nullable) = false];
+
+	// For QueryType == TopK
+	optional uint32 top_k = 10;
+}
+
 enum ColumnarIndexType {
 	TypeInvalid = 0;
 	TypeVector = 1;
 	TypeInverted = 2;
+	TypeFulltext = 3;
 }
 
 message ColumnarIndexInfo {
@@ -175,6 +197,7 @@ message ColumnarIndexInfo {
 	oneof index {
 		ANNQueryInfo ann_query_info = 2;
 		InvertedQueryInfo inverted_query_info = 3;
+		FTSQueryInfo fts_query_info = 4;
 	}
 }
 
@@ -358,7 +381,7 @@ message ExecutorExecutionSummary {
 	// And it's the ru consumption of one MPPTask/cop/batchCop instead of one executor.
 	optional bytes ru_consumption = 7;
 
-	// Only for tiflash, records the wait info. 
+	// Only for tiflash, records the wait info.
 	optional TiFlashWaitSummary tiflash_wait_summary = 8;
 
 	// Only for tiflash, records network info.
@@ -426,13 +449,41 @@ message TiFlashScanContext {
 	/// inverted index related fields
 
 	optional uint32 inverted_idx_load_from_s3 = 120;
-    optional uint32 inverted_idx_load_from_disk = 121;
-    optional uint32 inverted_idx_load_from_cache = 122;
-    optional uint64 inverted_idx_load_time_ms = 123;
-    optional uint64 inverted_idx_search_time_ms = 124;
-    optional uint32 inverted_idx_search_skipped_packs = 125;
-    optional uint64 inverted_idx_indexed_rows = 126;
-    optional uint64 inverted_idx_search_selected_rows = 127;
+	optional uint32 inverted_idx_load_from_disk = 121;
+	optional uint32 inverted_idx_load_from_cache = 122;
+	optional uint64 inverted_idx_load_time_ms = 123;
+	optional uint64 inverted_idx_search_time_ms = 124;
+	optional uint32 inverted_idx_search_skipped_packs = 125;
+	optional uint64 inverted_idx_indexed_rows = 126;
+	optional uint64 inverted_idx_search_selected_rows = 127;
+
+	/// fulltext index related fields
+
+	optional uint32 fts_n_from_inmemory_noindex = 150;
+	optional uint32 fts_n_from_tiny_index = 151;
+	optional uint32 fts_n_from_tiny_noindex = 152;
+	optional uint32 fts_n_from_dmf_index = 153;
+	optional uint32 fts_n_from_dmf_noindex = 154;
+	optional uint64 fts_rows_from_inmemory_noindex = 155;
+	optional uint64 fts_rows_from_tiny_index = 156;
+	optional uint64 fts_rows_from_tiny_noindex = 157;
+	optional uint64 fts_rows_from_dmf_index = 158;
+	optional uint64 fts_rows_from_dmf_noindex = 159;
+	optional uint64 fts_idx_load_total_ms = 160;
+	optional uint32 fts_idx_load_from_cache = 161;
+	optional uint32 fts_idx_load_from_column_file = 162;
+	optional uint32 fts_idx_load_from_stable_s3 = 163;
+	optional uint32 fts_idx_load_from_stable_disk = 164;
+	optional uint32 fts_idx_search_n = 165;
+	optional uint64 fts_idx_search_total_ms = 166;
+	optional uint64 fts_idx_dm_search_rows = 167;
+	optional uint64 fts_idx_dm_total_read_fts_ms = 168;
+	optional uint64 fts_idx_dm_total_read_others_ms = 169;
+	optional uint64 fts_idx_tiny_search_rows = 170;
+	optional uint64 fts_idx_tiny_total_read_fts_ms = 171;
+	optional uint64 fts_idx_tiny_total_read_others_ms = 172;
+	optional uint64 fts_brute_total_read_ms = 173;
+	optional uint64 fts_brute_total_search_ms = 174;
 }
 
 message TiFlashWaitSummary {
