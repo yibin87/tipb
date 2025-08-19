@@ -25,6 +25,7 @@ message ExplainData {
     // If discarded_due_to_too_long is true. The main and ctes fields should be empty and should not be used.
     // This field can be changed to a enum or int if we need to represent more states in the future.
     bool discarded_due_to_too_long = 4;
+    repeated ExplainOperator subqueries = 5;
 }
 
 message ExplainOperator {
